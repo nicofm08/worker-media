@@ -1,5 +1,6 @@
-import asyncio
+"""Process video task."""
 
+import asyncio
 from celery.app import shared_task
 from worker.celery_app import celery
 from worker.core.s3_client import S3Client
@@ -8,12 +9,15 @@ from worker.core.utils import UtilsCore
 from worker.core.constants import LOG_TASK
 from worker.core.logger_custom import log
 
+
 @shared_task(name="process_video")
 def process_video_task(event: dict):
+    """Process video task."""
     asyncio.run(_process_video_task(event))
 
 
 async def _process_video_task(event: dict):
+    """Process video task."""
     log.info(f"{LOG_TASK} Processing video: {event}")
     s3_key = event.get("s3_filename")
     media_id = event.get("s3_filename")
@@ -27,7 +31,7 @@ async def _process_video_task(event: dict):
 
     await mongo_client.update_one(
         {"s3_filename": media_id},
-        {"status": "PROCESSED", "filename_processed": processed_path}
+        {"status": "PROCESSED", "filename_processed": processed_path},
     )
     log.info(f"{LOG_TASK} Media updated: {media_id}")
     await utils_core.clear_file(local_path)

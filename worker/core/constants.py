@@ -86,4 +86,6 @@ def get_constants():
         "LOG_CORE": LOG_CORE,
         "LOG_MIDDLEWARE": LOG_MIDDLEWARE,
         "HTTP_TIMEOUT": HTTP_TIMEOUT,
+        "LOG_TASK": LOG_TASK,
+        "LOG_UTILS": LOG_UTILS,
     }

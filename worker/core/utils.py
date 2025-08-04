@@ -1,4 +1,5 @@
-""" This module contains utility"""
+"""This module contains utility"""
+
 from datetime import datetime
 import math
 import os
@@ -40,13 +41,14 @@ def date_diff_mayor(date1: str, date2: str) -> bool:
     return False
 
 
-
 class UtilsCore:
-    
+    """Utils core class."""
+
     async def pagination(self, items, page, size):
+        """Pagination function."""
         elements_quantity = len(items)
         total_pages = math.ceil(elements_quantity / size)
-        
+
         if total_pages == 0:
             total_pages = 1
         range_start = (page - 1) * size
@@ -62,17 +64,23 @@ class UtilsCore:
             "response": items[range_start:range_end],
         }
         return obj
-    
 
     async def apply_filters_query(self, query, filters):
+        """Apply filters to a query."""
         for filter_item in filters:
             field = filter_item["field"]
             values = filter_item["value"]
-            
+
             if field and values:
-                filtered_values = [val.strip() if isinstance(val, str) else val for val in values]
-                non_empty_values = [val for val in filtered_values if (isinstance(val, str) and val.strip()) or isinstance(val, int)]
-                
+                filtered_values = [
+                    val.strip() if isinstance(val, str) else val for val in values
+                ]
+                non_empty_values = [
+                    val
+                    for val in filtered_values
+                    if (isinstance(val, str) and val.strip()) or isinstance(val, int)
+                ]
+
                 if non_empty_values:
                     query[field] = {"$in": non_empty_values}
         return query
@@ -89,9 +97,7 @@ class UtilsCore:
             return data
 
     async def build_update_query(self, updates):
-        """
-        Construye el diccionario de actualización para MongoDB a partir de la lista de updates.
-        """
+        """Build the update query for MongoDB."""
         update_dict = {}
         for update_item in updates:
             field = update_item.get("field")
@@ -107,10 +113,14 @@ class UtilsCore:
     def add_metadata(self, file_path: str) -> dict:
         """Add metadata to a file"""
         log.info(f"{LOG_UTILS} Adding metadata to file: {file_path}")
-        return {"worker": "media_worker", "date_processed": datetime.now().isoformat(), "file_path": file_path}
+        return {
+            "worker": "media_worker",
+            "date_processed": datetime.now().isoformat(),
+            "file_path": file_path,
+        }
 
     async def clear_file(self, file_path: str) -> None:
-        """Clear a file"""
+        """Clear a file."""
         log.info(f"{LOG_UTILS} Clearing file: {file_path}")
         if os.path.exists(file_path):
             os.remove(file_path)
