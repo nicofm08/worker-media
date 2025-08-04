@@ -1,0 +1,9 @@
+boto3
+motor
+pymongo
+requests
+redis
+celery
+pydantic
+loguru
+dotenv

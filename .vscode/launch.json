@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Celery Worker",
+        "type": "python",
+        "request": "launch",
+        "program": "${workspaceFolder}\\.venv\\Scripts\\celery.exe",
+        "args": [
+          "-A", "worker.celery_app",
+          "worker",
+          "--loglevel=info",
+          "--concurrency=1",
+          "--pool=solo"
+        ],
+        "console": "integratedTerminal"
+      },
+      
+    ]
+  }
+  
